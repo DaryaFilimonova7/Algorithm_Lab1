@@ -123,49 +123,58 @@ void List :: delete_value(int value)
     }
     else
     {
-        Node *before_element = first;
-        // перебор элементов (2 способа)
-        /*
-        Node *before_element = first->next;
-        while (element->data != value)
+        if (last->data == value)
         {
-            before_element = before_element->next;
-            element = before_element->next;
+            element = first;
+            while (element->next != last) {element = element->next;}
+            // предпоследний эл-т
+            element->next = nullptr;
+            delete last;
+            last = element;
         }
-         */
-        while (before_element->next->data != value)
+        else
         {
-            before_element = before_element->next;
+            Node *before_element = first;
+            element = first->next;
+            // перебор элементов
+            while (element->data != value)
+            {
+                before_element = before_element->next;
+                element = before_element->next;
+            }
+
+            before_element->next = element->next;
+            delete element;
         }
-        before_element->next = node->next;
-        if (node == last)
-        {
-            last = before_element;
-        }
-        delete node;
     }
 }
 
-void List :: delete_position(Node *node, int position)
+void List :: delete_position(int position)
 {
+    Node *element = new Node();
     // удаление первого элемента
     if (position == 0)
     {
-        first = node->next;
-        delete node;
-        // return first;
+        element = first;
+        first = element->next;
+        delete element;
     }
     // удаление любого другого элемента
     else
     {
         Node *before_element = search_position(position-1);
-        before_element->next = node->next;
-        if (node == last)
+        element = before_element->next;
+        if (element == last)
         {
+            before_element->next = nullptr;
+            delete last;
             last = before_element;
         }
-        delete node;
-        // return before_element;
+        else
+        {
+            before_element->next = element->next;
+            delete element;
+        }
     }
 }
 
@@ -226,13 +235,15 @@ int main() {
         {
             std::cout << "Enter value: ";
             std::cin >> value;
-            std::cout << "[ " << list.add_first(value) << " ] added to the beginning" << std::endl;
+            list.add_first(value);
+            std::cout << "[ " << value << " ] added to the beginning" << std::endl;
         }
         else if (option == "a2")
         {
             std::cout << "Enter value: ";
             std::cin >> value;
-            std::cout << "[ " << list.add_last(value) << " ] added to the end" << std::endl;
+            list.add_last(value);
+            std::cout << "[ " << value << " ] added to the end" << std::endl;
         }
         else if (option == "b")
         {
@@ -240,11 +251,14 @@ int main() {
             std::cin >> value;
             std::cout << "Enter position: ";
             std::cin >> position;
-            std::cout << "[ " << list.add_position(value,position) << " ] added to position " << position << std::endl;
+            list.add_position(value,position);
+            std::cout << "[ " << value << " ] added to position " << position << std::endl;
         }
         else if (option == "c")
         {
-
+            std::cout << "Enter value: ";
+            std::cin >> value;
+            list.delete_value();
         }
         else if (option == "d") {}
         else if (option == "e") {}
@@ -257,3 +271,4 @@ int main() {
 
     return 0;
 }
+
