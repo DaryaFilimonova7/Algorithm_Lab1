@@ -2,7 +2,6 @@
 // дб возвращен результат, который можно где-то использовать
 // как ошибку можно вернуть -1, но лучше исп-ть Exception try{} catch{}
 
-
 #include <iostream>
 // односвязный список
 class Node
@@ -28,19 +27,18 @@ public:
     }
 
     // ссылка на ф-ию добавления элемента в конец/начало списка
-    Node* add_first(int);
-    Node* add_last(int);
-    Node* add_position(int,int);
+    void add_first(int);
+    void add_last(int);
+    void add_position(int,int);
     void delete_value(int);
     void delete_position(int);
     Node* search_value(int);
     Node* search_position(int);
     void print_list();
-    
 };
 
 
-Node* List :: add_first(int number)
+void List :: add_first(int number)
 {
     Node *element = new Node();
     element->data = number; // помещаем число в data этого узла
@@ -57,11 +55,11 @@ Node* List :: add_first(int number)
         element->next = first; // за новым элеменом следует тот, что был началом
         first = element; // теперь element принимает статус первого
     }
-    return element;
+    // return element;
 
 }
 
-Node* List :: add_last(int number)
+void List :: add_last(int number)
 {
     Node *element = new Node();
     element->data = number; // помещаем число в data этого узла
@@ -78,16 +76,16 @@ Node* List :: add_last(int number)
         last->next = element; // узел, который до этого был последним, теперь указывает не на nullptr, а на созданный element
         last = element; // теперь element принимает статус последнего
     }
-    return element;
+    // return element;
 }
 
-Node* List :: add_position(int number, int position)
+void List :: add_position(int number, int position)
 {
     Node *element = new Node();
     // добавление первого элемента
     if (position == 0)
     {
-        element = add_first(number);
+        add_first(number);
     }
 
     else
@@ -96,7 +94,7 @@ Node* List :: add_position(int number, int position)
         // добавление последнего элемента
         if (before_element == last)
         {
-            element = add_last(number);
+            add_last(number);
         }
         // добавление любого другого элемента
         else
@@ -109,7 +107,7 @@ Node* List :: add_position(int number, int position)
             before_element->next = element;
         }
     }
-    return element;
+    // return element;
 }
 
 void List :: delete_value(int value)
@@ -258,7 +256,7 @@ int main() {
         {
             std::cout << "Enter value: ";
             std::cin >> value;
-            list.delete_value();
+            list.delete_value(value);
         }
         else if (option == "d") {}
         else if (option == "e") {}
