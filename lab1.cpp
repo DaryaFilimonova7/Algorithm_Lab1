@@ -222,7 +222,7 @@ int main() {
 
     std::string option;
     std::cout << "\n Choose option: \n a1 - add an element to the beginning \n a2 - add an element to the end \n b - add an element to a curtain position \n c - delete element with a curtain value \n d - delete element with a curtain position \n e - search for element with a curtain value \n f - search for element with a curtain position \n g - print all elements \n s - stop " << std::endl;
-    while (option != "s") {
+    while (option != "s" && std::cin.good()) {
         std::cin >> option;
         int value;
         int position;
