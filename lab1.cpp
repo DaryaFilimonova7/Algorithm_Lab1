@@ -1,8 +1,8 @@
 // внутри функций не должно быть печати
 // дб возвращен результат, который можно где-то использовать
 // как ошибку можно вернуть -1, но лучше исп-ть Exception try{} catch{}
-#include <iostream>
 
+#include <iostream>
 
 // односвязный список
 class Node
@@ -28,9 +28,9 @@ public:
     }
 
     // ссылка на ф-ию добавления элемента в конец/начало списка
-    void add_first(int);
-    void add_last(int);
-    void add_position(int,int);
+    Node* add_first(int);
+    Node* add_last(int);
+    Node* add_position(int,int);
     void delete_value(int);
     void delete_position(int);
     Node* search_value(int);
@@ -39,7 +39,7 @@ public:
 };
 
 
-void List :: add_first(int number)
+Node* List :: add_first(int number)
 {
     Node *element = new Node();
     element->data = number; // помещаем число в data этого узла
@@ -56,11 +56,11 @@ void List :: add_first(int number)
         element->next = first; // за новым элеменом следует тот, что был началом
         first = element; // теперь element принимает статус первого
     }
-    // return element;
+    return element;
 
 }
 
-void List :: add_last(int number)
+Node* List :: add_last(int number)
 {
     Node *element = new Node();
     element->data = number; // помещаем число в data этого узла
@@ -77,10 +77,10 @@ void List :: add_last(int number)
         last->next = element; // узел, который до этого был последним, теперь указывает не на nullptr, а на созданный element
         last = element; // теперь element принимает статус последнего
     }
-    // return element;
+    return element;
 }
 
-void List :: add_position(int number, int position)
+Node* List :: add_position(int number, int position)
 {
     Node *element = new Node();
     // добавление первого элемента
@@ -108,15 +108,14 @@ void List :: add_position(int number, int position)
             before_element->next = element;
         }
     }
-    // return element;
+    return element;
 }
 
 void List :: delete_value(int value)
 {
-    Node *element = new Node();
+    Node *element = first;
     if (first->data == value)
     {
-        element = first;
         first = element->next;
         delete element;
     }
@@ -124,7 +123,6 @@ void List :: delete_value(int value)
     {
         if (last->data == value)
         {
-            element = first;
             while (element->next != last) {element = element->next;}
             // предпоследний эл-т
             element->next = nullptr;
@@ -223,67 +221,50 @@ int main() {
     list.print_list();
 
     std::string option;
-
     std::cout << "\n Choose option: \n a1 - add an element to the beginning \n a2 - add an element to the end \n b - add an element to a curtain position \n c - delete element with a curtain value \n d - delete element with a curtain position \n e - search for element with a curtain value \n f - search for element with a curtain position \n g - print all elements \n s - stop " << std::endl;
-    while (option != "s")
-    {
+    while (option != "s") {
         std::cin >> option;
-
         int value;
         int position;
-
-        if (option == "a1")
-        {
+        if (option == "a1") {
             std::cout << "Enter value: ";
             std::cin >> value;
             list.add_first(value);
             std::cout << "[ " << value << " ] added to the beginning" << std::endl;
         }
-        else if (option == "a2")
-        {
+        else if (option == "a2") {
             std::cout << "Enter value: ";
             std::cin >> value;
             list.add_last(value);
             std::cout << "[ " << value << " ] added to the end" << std::endl;
-        }
-        else if (option == "b")
-        {
+        } else if (option == "b") {
             std::cout << "Enter value: ";
             std::cin >> value;
             std::cout << "Enter position: ";
             std::cin >> position;
-            list.add_position(value,position);
+            list.add_position(value, position);
             std::cout << "[ " << value << " ] added to position " << position << std::endl;
-        }
-        else if (option == "c")
-        {
+        } else if (option == "c") {
             std::cout << "Enter value: ";
             std::cin >> value;
             list.delete_value(value);
-        }
-        else if (option == "d")
-        {
+        } else if (option == "d") {
             std::cout << "Enter position: ";
             std::cin >> position;
             list.delete_position(position);
-        }
-        else if (option == "e")
-        {
+        } else if (option == "e") {
             std::cout << "Enter value: ";
             std::cin >> value;
-            std::cout << "[ " << list.search_value(value)->data << " ] is found "<< std::endl;
-        }
-        else if (option == "f")
-        {
+            std::cout << "[ " << list.search_value(value)->data << " ] is found " << std::endl;
+        } else if (option == "f") {
             std::cout << "Enter position: ";
             std::cin >> position;
-            std::cout << "[ " << list.search_position(position)->data << " ] is found in position "<< position << std::endl;
-        }
-        else if (option == "g") {list.print_list();}
-        else {std::cout << "Incorrect option" << std::endl;}
+            std::cout << "[ " << list.search_position(position)->data << " ] is found in position " << position << std::endl;
+        } else if (option == "g") { list.print_list(); }
+        else if (option == "s") { std::cout << std::endl; }
+        else { std::cout << "Incorrect option" << std::endl; }
     }
 
 
     return 0;
 }
-
