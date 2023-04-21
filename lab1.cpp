@@ -1,8 +1,6 @@
 // внутри функций не должно быть печати
 // дб возвращен результат, который можно где-то использовать
 // как ошибку можно вернуть -1, но лучше исп-ть Exception try{} catch{}
-
-#include <iostream>
 // односвязный список
 class Node
 {
@@ -203,7 +201,7 @@ void List :: print_list()
     else
     {
         Node *x = first;
-        while (x->next != nullptr)
+        while (x != nullptr)
         {
             std::cout << x->data << " ";
             x = x->next;
@@ -222,13 +220,15 @@ int main() {
     list.print_list();
 
     std::string option;
-    std::cout << "\n Choose option: \n a1 - add an element to the beginning \n a2 - add an element to the end \n b - add an element to a curtain position \n c - delete element with a curtain value \n d - delete element with a curtain position \n e - search for element with a curtain value \n f - search for element with a curtain position \n g - print all elements \n s - stop " << std::endl;
-    std::cin >> option;
 
-    int value;
-    int position;
+    std::cout << "\n Choose option: \n a1 - add an element to the beginning \n a2 - add an element to the end \n b - add an element to a curtain position \n c - delete element with a curtain value \n d - delete element with a curtain position \n e - search for element with a curtain value \n f - search for element with a curtain position \n g - print all elements \n s - stop " << std::endl;
     while (option != "s")
     {
+        std::cin >> option;
+
+        int value;
+        int position;
+
         if (option == "a1")
         {
             std::cout << "Enter value: ";
@@ -258,13 +258,27 @@ int main() {
             std::cin >> value;
             list.delete_value(value);
         }
-        else if (option == "d") {}
-        else if (option == "e") {}
-        else if (option == "f") {}
+        else if (option == "d")
+        {
+            std::cout << "Enter position: ";
+            std::cin >> position;
+            list.delete_position(position);
+        }
+        else if (option == "e")
+        {
+            std::cout << "Enter value: ";
+            std::cin >> value;
+            std::cout << "[ " << list.search_value(value)->data << " ] is found "<< std::endl;
+        }
+        else if (option == "f")
+        {
+            std::cout << "Enter position: ";
+            std::cin >> position;
+            std::cout << "[ " << list.search_position(position)->data << " ] is found in position "<< position << std::endl;
+        }
         else if (option == "g") {list.print_list();}
         else {std::cout << "Incorrect option" << std::endl;}
     }
-
 
 
     return 0;
