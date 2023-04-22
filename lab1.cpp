@@ -249,8 +249,15 @@ int main() {
             std::cin >> value;
             std::cout << "Enter position: ";
             std::cin >> position;
-            list.add_position(value, position);
-            std::cout << "[ " << value << " ] added to position " << position << std::endl;
+            if (list.search_position(position-1) == nullptr)
+            {
+                std::cout << "Impossible. " << std::endl;
+            }
+            else
+            {
+                list.add_position(value, position);
+                std::cout << "[ " << value << " ] added to position " << position << std::endl;
+            }
             std::cout << "Choose option. " << std::endl;
         } else if (option == "c") {
             std::cout << "Enter value: ";
